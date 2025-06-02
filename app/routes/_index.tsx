@@ -67,7 +67,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    
+
     if(fetcher?.data?.success){
       toast.success(`${fetcher?.data?.deleted?.name?.toUpperCase()} Form deleted`)
     }
@@ -137,6 +137,7 @@ export default function Index() {
                     <TableHead className="w-[100px]">Name</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead></TableHead>
+                    <TableHead className=""></TableHead>
                     <TableHead className="text-right"></TableHead>
                   </TableRow>
                 </TableHeader>
@@ -153,6 +154,11 @@ export default function Index() {
                           <TableCell>
                             <Link to={`/form/edit/${form._id}`}>
                               <Button variant="outline" className="cursor-pointer">Edit</Button>
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            <Link to={`/response/${form._id}`}>
+                              <Button variant="outline" className="cursor-pointer">view reponse</Button>
                             </Link>
                           </TableCell>
                           <TableCell className="text-right">

@@ -5,6 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { Checkbox } from "./ui/checkbox"
 import { Separator } from "./ui/separator"
 import { Button } from "./ui/button"
+import { X } from "lucide-react"
 
 function ElementConfig({elementId, setDroppedItems, droppedItems}){
     const item = droppedItems.find(item => item.id === elementId)
@@ -25,13 +26,28 @@ function ElementConfig({elementId, setDroppedItems, droppedItems}){
                     </div>
 
                     <Label className="flex flex-col items-start gap-2">
-                        Label
+                        Label Tex
                         <Input
                             type="text"
                             value={item.label}
                             onChange={(e) => {
                                 setDroppedItems(prev =>
-                                    prev.map(ele => ele.id === elementId ? ({...ele, name: e.target.value, label: e.target.value}) : ele)
+                                    prev.map(ele => ele.id === elementId ? ({...ele, label: e.target.value}) : ele)
+                                )
+                            }}
+
+                        />
+                    </Label>
+
+                    <Label className="flex flex-col items-start gap-2">
+                        Name
+                        <Input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => {
+                                const updatedName = e.target.value.split(" ").join("_")
+                                setDroppedItems(prev =>
+                                    prev.map(ele => ele.id === elementId ? ({...ele, name: updatedName}) : ele)
                                 )
                             }}
 
@@ -138,13 +154,28 @@ function ElementConfig({elementId, setDroppedItems, droppedItems}){
                     </div>
 
                     <Label className="flex flex-col items-start gap-2">
-                        Label
+                        Label text
                         <Input
                             type="text"
                             value={item.label}
                             onChange={(e) => {
                                 setDroppedItems(prev =>
-                                    prev.map((ele) => ele.id === elementId ? ({...ele, label:e.target.value, name:e.target.value}) : ele)
+                                    prev.map((ele) => ele.id === elementId ? ({...ele, label:e.target.value}) : ele)
+                                )
+                            }}
+                        />
+                    </Label>
+
+                    <Label className="flex flex-col items-start gap-2">
+                        Name
+                        <Input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => {
+                                const updatedName = e.target.value.split(" ").join("_")
+
+                                setDroppedItems(prev =>
+                                    prev.map((ele) => ele.id === elementId ? ({...ele,name:updatedName}) : ele)
                                 )
                             }}
                         />
@@ -209,13 +240,28 @@ function ElementConfig({elementId, setDroppedItems, droppedItems}){
                     </div>
 
                     <Label className="flex flex-col items-start gap-2">
-                        Label
+                        Label text
                         <Input
                             type="text"
                             value={item.label}
                             onChange={(e) => {
                                 setDroppedItems(prev =>
                                     prev.map((ele) => ele.id === elementId ? ({...ele, label:e.target.value}) : ele)
+                                )
+                            }}
+                        />
+                    </Label>
+
+                    <Label className="flex flex-col items-start gap-2">
+                        Name
+                        <Input
+                            type="text"
+                            value={item.name}
+                            onChange={(e) => {
+                                const updatedName = e.target.value.split(" ").join("_")
+
+                                setDroppedItems(prev =>
+                                    prev.map((ele) => ele.id === elementId ? ({...ele, name:updatedName}) : ele)
                                 )
                             }}
                         />
@@ -228,25 +274,44 @@ function ElementConfig({elementId, setDroppedItems, droppedItems}){
                         <div className="flex flex-col gap-4">
                             {
                                 item.options.map((option, index) =>
-                                    <Input
-                                        key={`${option.label}-${index}`}
-                                        type="text"
-                                        value={option.value}
-                                        onChange={(e) => {
-                                            setDroppedItems(prev =>
+                                    <div key={option.id} className="flex gap-1">
+                                        <Input
 
+                                            type="text"
+                                            value={option.value}
+                                            onChange={(e) => {
+                                                setDroppedItems(prev =>
+
+                                                        prev.map(ele => {
+                                                            if(ele.id === elementId){
+                                                                const updatedOptions = ele.options.map((opt, i) => index === i ? ({...opt, value: e.target.value, label: e.target.value}) : opt)
+                                                                return {...ele, options: updatedOptions}
+                                                            }
+
+                                                            return ele
+                                                        })
+
+                                                )
+                                            }}
+                                        />
+                                        <Button
+                                            variant={'outline'}
+                                            onClick={() => {
+                                                setDroppedItems((prev) =>
                                                     prev.map(ele => {
                                                         if(ele.id === elementId){
-                                                            const updatedOptions = ele.options.map((opt, i) => index === i ? ({value: e.target.value, label: e.target.value}) : opt)
-                                                            return {...ele, options: updatedOptions}
+                                                            const updated = ele.options.filter((opt) => opt.id !== option.id)
+                                                            return {...ele, options: updated}
                                                         }
-
                                                         return ele
                                                     })
+                                                )
+                                            }}
 
-                                            )
-                                        }}
-                                    />
+                                        >
+                                            <X/>
+                                        </Button>
+                                    </div>
                                 )
                             }
                         </div>

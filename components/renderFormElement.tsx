@@ -55,6 +55,7 @@ export const FormElements = [
       { "label": "Option 1", "value": "option_1", "id": "nrefrgertghe" },
     ],
     "defaultValue": "",
+    "required": "false"
   },
   {
     "type": "select",
@@ -138,7 +139,7 @@ function RenderFormElement({element}: {element:any}){
         case 'checkbox':
           return (
             <div className="flex gap-2">
-              <Checkbox id={element.name} checked={element.checked}/>
+              <Checkbox name={element.name} id={element.name} />
               <Label htmlFor={element.name}>{element.label}</Label>
             </div>
           )
@@ -148,7 +149,7 @@ function RenderFormElement({element}: {element:any}){
               <Label htmlFor={element.name}>{element.label}</Label>
               <RadioGroup name={element.name} defaultValue={element.defaultValue}>
                 {element.options.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-2">
+                  <div key={option.id} className="flex items-center space-x-2">
                     <RadioGroupItem value={option.value} id={option.value}/>
                     <Label htmlFor={option.value}>{option.label}</Label>
                   </div>
@@ -156,27 +157,8 @@ function RenderFormElement({element}: {element:any}){
               </RadioGroup>
             </div>
           )
-        case 'select':
-          return (
-            <div className="">
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder={element.label}/>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>{element.label}</SelectLabel>
-                    {
-                      element.options.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                      ))
-                    }
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
 
-            </div>
-          )
+
         default:
           return null;
 
