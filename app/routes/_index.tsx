@@ -10,11 +10,12 @@ import Droppable from "@/components/droppable";
 import ElementConfig from "@/components/ElementConfig";
 import connectDB from "@/lib/db.server";
 import { FormModel } from "@/models/Form";
-import { Link, redirect, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, redirect, useFetcher, useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import Loader from "@/components/loading";
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,6 +39,7 @@ export default function Index() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const fetcher = useFetcher()
+    const navigation = useNavigation()
 
 
   const saveForm = async (name:string) => {
@@ -82,6 +84,12 @@ export default function Index() {
         method: 'POST',
         encType: 'application/json'
       }
+    )
+  }
+
+  if(navigation.state === "loading"){
+    return (
+      <Loader/>
     )
   }
 

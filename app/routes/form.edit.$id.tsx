@@ -10,10 +10,11 @@ import Droppable from "@/components/droppable";
 import ElementConfig from "@/components/ElementConfig";
 import connectDB from "@/lib/db.server";
 import { FormModel } from "@/models/Form";
-import { Link, useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
 import { DotPattern } from "@/components/magicui/dot-pattern";
 import { ArrowBigLeftDash, X } from "lucide-react";
 import { toast } from "sonner";
+import Loader from "@/components/loading";
 
 
 
@@ -37,6 +38,7 @@ export default function Index() {
   const [preview, setPreview] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const navigate = useNavigate()
+  const navigation = useNavigation()
   const fetcher = useFetcher()
 
   console.log(elements)
@@ -159,7 +161,11 @@ export default function Index() {
     setDroppedItems((prev) => prev.filter((item) => item.id !== 'preview'));
   }
 
-
+  if(navigation.state === 'loading'){
+    return(
+      <Loader/>
+    )
+}
   return (
     <>
     {
