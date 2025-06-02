@@ -1,9 +1,10 @@
 import connectDB from "@/lib/db.server";
 import { FormModel } from "@/models/Form";
 import { LoaderFunction } from "@remix-run/node";
-import { json, useLoaderData } from "@remix-run/react";
+import { json, useLoaderData, useNavigation } from "@remix-run/react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import FormResponse from "@/models/FormResponse";
+import Loader from "@/components/loading";
 
 
 export const loader: LoaderFunction = async ({params}) => {
@@ -23,10 +24,16 @@ export default function Index(){
     const {formInfo, formResponse} = useLoaderData<typeof loader>()
     let formElements = JSON.parse(JSON.parse(formInfo.elements))
     let formResponseArr = formResponse.map(response => ({...JSON.parse(response.response), _id: response._id}))
-
+    const navigation = useNavigation()
     formElements = formElements.filter(ele => ele.name )
     console.log(formElements)
     console.log(formResponseArr)
+
+    if(navigation.state === 'loading'){
+        return (
+            <Loader/>
+        )
+    }
 
     return (
         <div className="px-12">
@@ -48,7 +55,7 @@ export default function Index(){
                 <TableBody>
                 {formResponseArr.length === 0 ?
                     <TableRow>
-                        <TableCell className="text-center">No responses</TableCell>
+                        <TableCell className="">No responses</TableCell>
                     </TableRow>
                 :
                 formResponseArr.map((form) =>
