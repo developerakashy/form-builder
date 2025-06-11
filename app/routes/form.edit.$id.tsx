@@ -73,7 +73,7 @@ export default function Index() {
     setLoading(true)
     let timeout = setTimeout(() => {
       console.log('Playground updated')
-      handleFormUpdate(droppedItems)
+      // handleFormUpdate(droppedItems)
     }, 1200)
 
     return () => {
